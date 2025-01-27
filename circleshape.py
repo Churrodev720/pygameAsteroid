@@ -12,6 +12,17 @@ class CircleShape(pygame.sprite.Sprite):
         self.position = pygame.Vector2(x, y)
         self.velocity = pygame.Vector2(0, 0)
         self.radius = radius
+        
+        # Create a square surface big enough for the circle
+        size = radius * 2  # diameter
+        self.image = pygame.Surface((size, size))
+        # Make the background transparent
+        self.image.set_colorkey((0, 0, 0))
+        # Draw the circle on the surface
+        pygame.draw.circle(self.image, (255, 255, 255), (radius, radius), radius)
+        # Create the rect for positioning
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
 
     def draw(self, screen):
         # sub-classes must override
@@ -19,4 +30,5 @@ class CircleShape(pygame.sprite.Sprite):
 
     def update(self, dt):
         # sub-classes must override
-        pass
+        self.rect.center = self.position
+        self.rect.center = (self.position.x, self.position.y)
