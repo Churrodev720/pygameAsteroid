@@ -32,3 +32,7 @@ class CircleShape(pygame.sprite.Sprite):
         # sub-classes must override
         self.rect.center = self.position
         self.rect.center = (self.position.x, self.position.y)
+        
+    def collision(self, other):
+        distance = pygame.math.Vector2.distance_to(self.position, other.position) 
+        return distance <= (self.radius + other.radius)
