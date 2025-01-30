@@ -3,6 +3,7 @@ import constants
 import player
 import asteroid
 import asteroidfield
+import shot as shot_module
 
 
 def main():
@@ -27,11 +28,14 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots_group = pygame.sprite.Group()
+    
     player.Player.containers = (updatable, )
     asteroid.Asteroid.containers = (asteroids, updatable, drawable)
     asteroidfield.AsteroidField.containers = (updatable,)
+    shot_module.Shot.containers = (shots_group, updatable, drawable)
     
-    my_player = player.Player(x, y)
+    my_player = player.Player(x, y, shots_group)
     asteroid_field = asteroidfield.AsteroidField()
     # Game loop setup
     clock = pygame.time.Clock()
@@ -48,6 +52,11 @@ def main():
                 print("Game over!")
                 return
         
+        collisions = pygame.sprite.groupcollide(shots_group, asteroids, True, True)    
+        for shot, hit_asteroids in collisions.items():
+            for asteroi in hit_asteroids:
+                asteroi.split()
+            
         updatable.update(dt)
         
         screen.fill((0, 0, 0))
